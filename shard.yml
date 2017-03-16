@@ -6,12 +6,8 @@ authors:
 
 targets:
   cql-http:
-    main: src/cql-http.cr
+    main: src/cql_http.cr
 
 crystal: 0.21.1
 
 license: MIT
-
-# dependencies:
-#   kemal:
-#     github: kemalcr/kemal
