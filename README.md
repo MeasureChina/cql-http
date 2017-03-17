@@ -5,13 +5,18 @@ use cql via http
 
 ## scylladb using docker
 
+https://hub.docker.com/r/scylladb/scylla
+
 ```sh
 docker run --name scylla -p 9042:9042 scylladb/scylla
+
+docker run --name scylla -p 9042:9042 --volume /var/lib/scylla:/var/lib/scylla scylladb/scylla
 
 docker exec scylla ps aux
 
 docker exec -it scylla cqlsh 172.17.0.2 -p 9042
 ```
+
 
 ## basic cassandra query
 
