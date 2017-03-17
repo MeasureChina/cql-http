@@ -11,7 +11,21 @@ module CQL_HTTP
         context.response.content_type = "text/plain"
         
         if context.request.path == "/query"
-          context.response.print query_cql(context.request.query)
+          if context.request.method == "GET"
+            # q에 저장됨
+            params = HTTP::Params.parse(context.request.query.as(String))
+            context.response.print query_cql(params["q"])
+          elsif context.request.method == "POST"
+            # POST data
+            if context.request.body
+              query_string = context.request.body.as(IO).gets_to_end
+              context.response.print query_cql(query_string)
+            else
+              puts "POST data is empty"
+            end
+          else
+            puts "#{context.request.method} method is not supported"
+          end
         else
           context.response.print "Hello world!"
         end
@@ -23,9 +37,7 @@ module CQL_HTTP
     
     def self.query_cql(query_string)
       puts "query_cql >"
-      params = HTTP::Params.parse query_string.as(String)
-      
-      Query.execute params["q"]
+      Query.execute query_string
     end
   end
 end
